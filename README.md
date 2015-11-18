@@ -1,4 +1,4 @@
-# raspberrpi
+# raspberrypi
 Home Improvements with a Raspberry Pi
 
 
