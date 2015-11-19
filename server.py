@@ -29,61 +29,48 @@ def readBuffer(s, wait=True):
 	except Exception as e:
 		return ""
 	return message
-# readBuffer
-# ----------
-# recvBuffer - the socket to read from
-# sendBuffer - the socket to send to
-# Reads the message that has been given and send it to the other client
-def forward(recvBuffer, sendBuffer):
-	try:
-		message = readBuffer(recvBuffer, False)
-		if(message != ""):
-			print "forwarding message: " + message
-			sendBuffer.send(message + "#")
-	except:
-		return
+
+def activateCode(code):
+	return code == "opensesame" or code == "partyon!"
+
+def playMusic():
+	print (" Playing your favourite music in a moment...")
+	print (" ->call to selenium")
+	print (" Enjoy these vibes!")
+
+def bootUp(port=29876,timeout=7200):
+	print (" Is this real life?")
+
+	try :
+		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		s.settimeout(timeout) #wait for 2 hours then turn off
 		
+		name = socket.gethostname()
 
-print "Sever has been turned on: Hello world"
-
-port = sys.argv[1] #obtain the port
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-name = socket.gethostname()
-
-s.bind((name,int(port)))
-s.listen(5) #queues up to 5 requests
-
-#Making the publicly known values constants for simplicity
-p = 13597
-g = 2
-
-while 1:
-	(alice, address1) = s.accept()
-	print "Waiting for a friend to talk with..."
-	(bob, address2) = s.accept()
-	print "A friend has connected"
-
-	#liason to key agreement
-	alice.send(str(p) + "#")
-	alice.send(str(g) + "#")
-	bob.send(str(p) + "#")
-	bob.send(str(g) + "#")
-	
-	A = readBuffer(alice)
-	B = readBuffer(bob)
-	
-	#exchange public keys
-	bob.send(A + "#")
-	alice.send(B + "#")
-	
-	while 1:
-		#relay alice's message to bob
-		forward(alice, bob)
+		s.bind((name,int(port)))
+		s.listen(5) #queues up to 5 requests
 		
-		#relay bob's message to alice
-		forward(bob, alice)
+		print (" Waiting for a Raspberry Pi to talk with...")
+			
+		(rpi, address1) = s.accept()
 		
-	alice.send('t')
-	bob.send('t')
-	alice.close()
-	bob.close()
+		start = time.time()
+		now = start
+		
+		#wait for duration
+		while 1 :
+			code = readBuffer(rpi, False)
+			
+			if ( activateCode(code) ):
+				print ( " Welcome Home, Mike!")
+				break
+		
+		playMusic()
+		
+	except KeyboardInterrupt:
+		print (" Goodbye, Mike")
+	finally :
+		s.close()
+
+port = 29876 #sys.argv[1] #obtain the port
+bootUp(port, 30)
