@@ -7,6 +7,7 @@ import sys
 import time
 import string
 import math
+import subprocess
 
 # readBuffer
 # ----------
@@ -35,12 +36,16 @@ def activateCode(code):
 
 def playMusic():
 	print (" Playing your favourite music in a moment...")
-	print (" ->call to selenium")
-	print (" Enjoy these vibes!")
+	try:
+		subprocess.call(['java', '-jar', 'C:\\wamp\\www\\raspberrypi\\spotify.jar'])
+	finally:
+		print (" Enjoy these vibes!")
 
-def bootUp(port=29876,timeout=7200):
-	print (" Is this real life?")
-
+def bootUp(port=29875, timeout=7200):
+	print (" Waking up... Yawn.")
+	
+	play=False
+	
 	try :
 		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		s.settimeout(timeout) #wait for 2 hours then turn off
@@ -63,14 +68,17 @@ def bootUp(port=29876,timeout=7200):
 			
 			if ( activateCode(code) ):
 				print ( " Welcome Home, Mike!")
+				play=True
 				break
-		
-		playMusic()
-		
 	except KeyboardInterrupt:
 		print (" Goodbye, Mike")
 	finally :
 		s.close()
+	if play:
+		playMusic()
+	else: 
+		print ("Something went wrong, we are not playing your music")
+	
+#port = 29876 #sys.argv[1] #obtain the port
 
-port = 29876 #sys.argv[1] #obtain the port
-bootUp(port, 30)
+bootUp( )

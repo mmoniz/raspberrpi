@@ -49,11 +49,9 @@ def detectMotion( GPIO_PIR = 4, timeout=7200):
 				# PIR is triggered
 				print (" Motion detected!")
 				
-				client.sendMessage( ip, port, message)
-				break
-				
 				# Record previous state
 				Previous_State=1
+				break
 			elif Current_State==0 and Previous_State==1:
 				# PIR has returned to ready state
 				print (" Ready")
@@ -62,8 +60,8 @@ def detectMotion( GPIO_PIR = 4, timeout=7200):
 			# Wait for 10 milliseconds
 			time.sleep(0.01)
 			now = time.time()
-
-	except KeyboardInterrupt:
+		#client.sendMessage( ip, port, message)
+	except KeyboardInterrupt :
 		print (" Quit") 
 		# Reset GPIO settings
 		GPIO.cleanup()
