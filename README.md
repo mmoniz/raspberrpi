@@ -26,9 +26,30 @@ Steps:
 8. If you modify the port you will need to also modify it on the server.py script
 9. Use cron or Windows Task Scheduler to automate your server.py script
 10. Use cron on the pi to run the motion.py script
+	eg "00 15 * * 5 cd /home/pi && bash media.sh >> /logs/media_log.txt &"
+
+	media.sh: this will run the script
+		#!/usr/bash
+		#!/usr/bin/python
+
+		stdbuf -oL python motion.py >> /logs/media_log.txt
 
 Behaviour:
 Once motion is detected it will attempt to send a message to the server through a socket layer and quit.
 The server will attempt to read the signal and launch spotify.jar. This will automatically log into spotify
 and run one of your playlists randomly.
+
+
+Sample output from motion.py:
+
+PIR Module Test CTRL-C to exit
+Waiting for PIR to settle ...
+ Ready
+ Start time=2015-11-25 17:37:43
+ Motion detected! > 2015-11-25 17:37:54
+ ip: 192.168.0.11
+ port: 29875
+ connecting...
+ ready to send data
+ sent data
 
