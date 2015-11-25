@@ -37,7 +37,7 @@ def activateCode(code):
 def playMusic():
 	print (" Playing your favourite music in a moment...")
 	try:
-		subprocess.call(['java', '-jar', 'C:\\wamp\\www\\raspberrypi\\spotify.jar'])
+		subprocess.call(['java', '-jar', 'C:\\automated_media\\spotify.jar'])
 	finally:
 		print (" Enjoy these vibes!")
 
