@@ -26,7 +26,9 @@ Steps:
 8. If you modify the port you will need to also modify it on the server.py script
 9. Use cron or Windows Task Scheduler to automate your server.py script
 10. Use cron on the pi to run the motion.py script
-	eg "00 15 * * 5 cd /home/pi && bash media.sh >> /logs/media_log.txt &"
+	
+	#Monday to Friday at 3:10pm run media.sh
+	eg "10 15 * * 1-5 cd /home/pi && bash media.sh >> /tmp/media_log.txt &"
 
 	media.sh: this will run the script
 		#!/usr/bash
