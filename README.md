@@ -27,13 +27,15 @@ Steps:
 9. Use cron or Windows Task Scheduler to automate your server.py script
 10. Use cron on the pi to run the motion.py script
 	
-	#Monday to Friday at 3:10pm run media.sh
-	eg "10 15 * * 1-5 cd /home/pi && bash media.sh >> /tmp/media_log.txt &"
+	#Cron Job
+	Monday to Friday at 3:10pm run media.sh
+	
+	"10 15 * * 1-5 cd /home/pi && bash media.sh >> /tmp/media_log.txt &"
 
 	media.sh: this will run the script
+	
 		#!/usr/bash
 		#!/usr/bin/python
-
 		stdbuf -oL python motion.py >> /logs/media_log.txt
 
 Behaviour:
